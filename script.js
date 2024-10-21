@@ -20,28 +20,51 @@ function displayCard() {
     }  
 }
 
+const showDefinitionButton = document.getElementsByClassName("flashcard")[0]
 const nextButton = document.getElementById("next-btn")
 const prevButton = document.getElementById("prev-btn")
+const addButton = document.getElementById("add-card-btn")
 
-nextButton.addEventListener("click", function(){
-    if (showingTerm == true){
-        showingTerm = false
-    } else{
-        currentIndex++
-        showingTerm =true
+
+showDefinitionButton.addEventListener("click", function(){
+    showingTerm = false
+    displayCard()
+})
+
+nextButton.addEventListener("click", function(){    
+    currentIndex++
+    if (currentIndex === flashcards.length){
+        currentIndex = 0
     }
+    showingTerm = true
     displayCard()
 })
 
 prevButton.addEventListener("click", function(){
-    if (showingTerm == true){
-        showingTerm = false
+    if (currentIndex != 0){
         currentIndex--
     } else{
-        showingTerm =true
+        currentIndex = (flashcards.length - 1)
     }
+    showingTerm = true
     displayCard()
 })
+
+addButton.addEventListener("click", function(){
+    const newTerm = document.getElementById("new-term")
+    const newDefinition = document.getElementById("new-definition")
+
+    if (newTerm.value != "" && newDefinition.value != ""){
+        const newFlashCard = {term: newTerm.value, definition: newDefinition.value}
+        flashcards.push(newFlashCard)
+        newTerm.value = ""
+        newDefinition.value = ""
+    } 
+})
+
+
+
+
 
 // This line will display the card when the page is refreshed
 window.onload = displayCard;
